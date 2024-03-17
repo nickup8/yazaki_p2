@@ -4,15 +4,15 @@ import {
     Avatar,
     Box,
     Container,
-    MenuList,
     Toolbar,
     Typography,
 } from "@mui/material";
 import ApplicationLogo from "./ApplicationLogo";
+import NavLink from "./NavLink";
 
 export default function Header() {
     const { auth } = usePage().props;
-    console.log(auth.user);
+
     return (
         <AppBar className="bg-white">
             <Container maxWidth="2xl">
@@ -23,7 +23,14 @@ export default function Header() {
                             P2
                         </Typography>
                     </Box>
-                    <MenuList className="flex ml-6 grow"></MenuList>
+                    <nav className="flex ml-6 grow">
+                        <NavLink
+                            href={route("terminals.index")}
+                            active={route().current("terminals.*")}
+                        >
+                            Терминалы
+                        </NavLink>
+                    </nav>
                     <Box className="flex items-center text-gray-700">
                         <Avatar>
                             {auth.user.last_name[0].toUpperCase()}

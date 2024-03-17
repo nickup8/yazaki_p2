@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TerminalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,4 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/terminals', [TerminalController::class, 'index'])->middleware('auth')->name('terminals.index');
+Route::get('/terminals/add', [TerminalController::class, 'create'])->middleware('auth')->name('terminals.create');
+Route::post('/terminals/store', [TerminalController::class, 'store'])->middleware('auth')->name('terminals.store');
+Route::get('/terminals/search', [TerminalController::class, 'search'])->middleware('auth')->name('terminals.search');
+Route::get("/terminals/all", [TerminalController::class, "showAllTerminals"])->middleware("auth")->name('terminals.all');
+
+require __DIR__ . '/auth.php';
