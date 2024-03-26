@@ -5,14 +5,16 @@ import InputError from "@/Components/InputError";
 import { useForm } from "@inertiajs/react";
 import TextInput from "@/Components/TextInput";
 
-export default function TerminalSearch({ terminals }) {
+export default function TerminalSearch({ terminals, terminal }) {
     const { data, setData, post, get, processing, errors } = useForm({
         code: "",
     });
 
+    console.log(terminal);
+
     const submit = (e) => {
         e.preventDefault();
-        get(route("terminals.show", { terminal: data.code }));
+        get(route("terminals.searchResponse", { code: data.code }));
     };
     return (
         <>

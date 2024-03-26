@@ -23,12 +23,18 @@ export default function Header() {
                             P2
                         </Typography>
                     </Box>
-                    <nav className="flex ml-6 grow">
+                    <nav className="flex ml-6 grow gap-2">
                         <NavLink
                             href={route("terminals.index")}
                             active={route().current("terminals.*")}
                         >
                             Терминалы
+                        </NavLink>
+                        <NavLink
+                            href={route("seals")}
+                            active={route().current("seals.*")}
+                        >
+                            Уплотнители
                         </NavLink>
                     </nav>
                     <Box className="flex items-center text-gray-700">

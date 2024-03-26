@@ -24,7 +24,7 @@ class TerminalController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            "code" => ['required', 'string'],
+            "code" => ['required', 'string', 'unique:terminals'],
             "number" => ["required", "string"],
             "supplier" => ["required", "string"],
             "title" => ["string"],
@@ -35,10 +35,18 @@ class TerminalController extends Controller
         return Redirect::route("terminals.index")->with("success", $message);
     }
 
-    public function search()
+    public function search(Request $request)
     {
         return Inertia::render("Terminals/TerminalSearch");
     }
+
+    public function searchResponse(Request $request)
+    {
+        $terminal = Terminal::where(("code"), $request['code'])->first();
+        return Inertia::render('Terminals/TerminalSearchResponse');
+    }
+
+
     public function show(Terminal $terminal)
     {
         $data = Terminal::where($terminal);
@@ -53,5 +61,27 @@ class TerminalController extends Controller
         return Inertia::render('Terminals/Terminals', [
             'terminals' => $terminals
         ]);
+    }
+
+    public function edit(Terminal $terminal)
+    {
+
+        return Inertia::render('Terminals/TerminalForm', [
+            'terminal' => $terminal
+        ]);
+    }
+
+    public function update(Request $request, Terminal $terminal)
+    {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'unique:terminals,code,' . $terminal->id],
+            'number' => ['required', 'string'],
+            'supplier' => ['required', 'string'],
+            'title' => ['string'],
+        ]);
+
+        $terminal->update($data);
+        $message = 'Терминал ' . $terminal->code . ' изменен' . $terminal->id;
+        return to_route('terminals.all')->with('success', $message);
     }
 }
